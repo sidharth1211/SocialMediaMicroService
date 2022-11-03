@@ -10,11 +10,11 @@ import java.util.function.Predicate;
 @Component
 public class UserDaoService {
     private static List<User> users = new ArrayList<>();
-
+    public static Integer userCount=0;
     static {
-        users.add(new User(1,"Adam", LocalDate.now().minusYears(30)));
-        users.add(new User(2,"Marcus", LocalDate.now().minusYears(40)));
-        users.add(new User(3,"Ricky", LocalDate.now().minusYears(50)));
+        users.add(new User(userCount++,"Adam", LocalDate.now().minusYears(30)));
+        users.add(new User(userCount++,"Marcus", LocalDate.now().minusYears(40)));
+        users.add(new User(userCount++,"Ricky", LocalDate.now().minusYears(50)));
     }
 
     public List<User>findAll(){
@@ -23,5 +23,10 @@ public class UserDaoService {
     public User findOne(int id){
         Predicate<? super User> predicate = user -> user.getId().equals(id);
         return users.stream().filter(predicate).findAny().get();
+    }
+    public User save(User user){
+        user.setId(userCount);
+        users.add(user);
+        return user;
     }
 }
