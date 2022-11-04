@@ -1,7 +1,6 @@
 package com.microservices.rest.webservices.restfulwebservices.users;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,7 +22,11 @@ public class UserResource {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable Integer id){
-        return service.findOne(id);
+
+        User user = service.findOne(id); // convert to predicate
+        if(user==null)
+            throw new UserNotFoundException("id: "+id );
+        return user;
     }
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User user){
@@ -34,5 +37,10 @@ public class UserResource {
                 .buildAndExpand(savedUser.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+    @DeleteMapping("users/{id}")
+    public void deleteUser(@PathVariable Integer id){
+
+        service.deleteById(id); // convert to predicate
     }
 }
