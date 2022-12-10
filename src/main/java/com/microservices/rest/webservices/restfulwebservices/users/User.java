@@ -1,5 +1,6 @@
 package com.microservices.rest.webservices.restfulwebservices.users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -7,7 +8,9 @@ import java.time.LocalDate;
 
 public class User {
     private Integer id;
+    @JsonProperty("user_name")
     private String name;
+    @JsonProperty("birth_date")
     private LocalDate birthDate;
 
     public Integer getId() {
