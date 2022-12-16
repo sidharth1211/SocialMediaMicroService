@@ -1,12 +1,15 @@
 package com.microservices.rest.webservices.restfulwebservices.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name="user_details")
 public class User {
@@ -17,7 +20,9 @@ public class User {
     private String name;
     @JsonProperty("birth_date")
     private LocalDate birthDate;
-
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Post> posts;
     protected User() {
     }
 
@@ -43,6 +48,14 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public User(Integer id, String name, LocalDate birthDate) {
